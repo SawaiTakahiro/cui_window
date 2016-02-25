@@ -48,6 +48,20 @@ def get_seikei_status(label, value, padding_char)
 	return output.join
 end
 
+def add_outline(window)
+	#TODO:間の部分を水平、垂直の罫線入れる
+	window[0][0]			= KEISEN_C
+	window[0][WIDTH - 1]	= KEISEN_C
+	
+	window[HEIGHT - 1][0]			= KEISEN_C
+	window[HEIGHT - 1][WIDTH - 1]	= KEISEN_C
+	
+	
+	
+	return window
+end
+
+
 
 #画面の定義（初期化）
 #http://blog.cototoco.net/work/201405/ruby-%E9%85%8D%E5%88%97/	参考：オブジェクトIDが同じになってひどいことになる。
@@ -60,6 +74,10 @@ table_name = <<"EOS"
 |さわい|
 +------+
 EOS
+
+#外枠を描く
+#更新はあんまりしないだろうから、メインループに入れない
+window = add_outline(window)
 
 #メインループ
 for i in 0..4 do
