@@ -17,7 +17,7 @@ require "./library.rb"
 #画面サイズ
 WIDTH		= 40
 HEIGHT	= 15
-DEFAULT_VALUE = "*"	#printだとスペースが詰まるかも
+DEFAULT_VALUE = " "	#printだとスペースが詰まるかも
 CORSOR_UP = "\e[1A"
 
 #罫線の定義
@@ -91,13 +91,26 @@ def add_outline(window, start_x, start_y, end_x, end_y, flag)
 	return window
 end
 
+##################################################
+#テキストウインドウの中身のところ
+MAX_TEXT_LINE	= 18	#１行の文字数
+MAX_TEXTHEIGHT	= 3	#１つのウインドウの最大文字数
+
+#１行の文字数に分割して返す
+def slice_message(text)
+	return text.scan(/.{1,#{MAX_TEXT_LINE}}/)
+end
 
 
+##################################################
 #画面の定義（初期化）
 #http://blog.cototoco.net/work/201405/ruby-%E9%85%8D%E5%88%97/	参考：オブジェクトIDが同じになってひどいことになる。
 window = Array.new(HEIGHT, DEFAULT_VALUE).map{Array.new(WIDTH, DEFAULT_VALUE)}
 
 
+
+
+##################################################
 #以下は、ためしに書き込んでみるデータ
 table_name = <<"EOS"
 +------+
@@ -105,10 +118,22 @@ table_name = <<"EOS"
 +------+
 EOS
 
+#入力用のテキスト。テスト用
+text = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん"
+
 #外枠を描く
 #更新はあんまりしないだろうから、メインループに入れない
 window = add_outline(window, 0, 0, WIDTH - 1, HEIGHT - 1, false)
-window = add_outline(window, 10, 5, 30, 10, true)
+window = add_outline(window, 0, HEIGHT - 5, WIDTH - 1, HEIGHT - 1, true)
+
+#テキストを入れてみる
+#まずは分割
+list_text = slice_message(text)
+
+window = add_window(list_text[0], window, 2, 11)
+window = add_window(list_text[1], window, 2, 12)
+window = add_window(list_text[2], window, 2, 13)
+
 
 #表示してみる
 #drow_window(window)
