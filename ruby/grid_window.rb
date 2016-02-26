@@ -36,9 +36,7 @@ INITIALIZE_CHAR = " "
 ##################################################
 #windowを表示してみるだけ
 def drow_window(window)
-	window.each do |row|
-		p row.join
-	end
+	puts window.map{|row| row.join}
 end
 
 #ステータス、値な表な形にして返す
@@ -113,7 +111,8 @@ window = add_outline(window, 0, 0, WIDTH - 1, HEIGHT - 1, false)
 window = add_outline(window, 10, 5, 30, 10, true)
 
 #表示してみる
-drow_window(window)
+#drow_window(window)
+puts window.map{|row| row.join}
 
 =begin
 #メインループ
