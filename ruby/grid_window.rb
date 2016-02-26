@@ -17,7 +17,7 @@ require "./library.rb"
 #画面サイズ
 WIDTH		= 40
 HEIGHT	= 15
-DEFAULT_VALUE = " "	#bashだとスペースが省かれるっぽいので、確認用としてアンダーバーにした→windowsのだけ？
+DEFAULT_VALUE = "*"	#printだとスペースが詰まるかも
 CORSOR_UP = "\e[1A"
 
 #罫線の定義
@@ -30,8 +30,17 @@ MAX_LEN_NAME	= 8
 MAX_LEN_STATUS	= 3
 DEFALUT_PADDING_CHAR = " "
 
+#上書きするとき、この文字でやる
+INITIALIZE_CHAR = " "
 
 ##################################################
+#windowを表示してみるだけ
+def drow_window(window)
+	window.each do |row|
+		p row.join
+	end
+end
+
 #ステータス、値な表な形にして返す
 def get_seikei_status(label, value, padding_char)
 	len_label = get_text_length(label.to_s)
@@ -49,7 +58,21 @@ def get_seikei_status(label, value, padding_char)
 end
 
 #枠線を書き込むやつ
-def add_outline(window, start_x, start_y, end_x, end_y)
+#flagがtrueだと、そのスペースを初期化する
+def add_outline(window, start_x, start_y, end_x, end_y, flag)
+	#入力された値のチェック。ダメならそこで戻しちゃう
+	return window if end_x >= WIDTH
+	return window if end_y >= HEIGHT
+	#↑他も必要になったら足す
+	
+	#スペースの初期化処理
+	if flag == true then
+		for i in start_y..end_y do
+			window[i].fill(start_x, (end_x - start_x)){INITIALIZE_CHAR}
+		end
+	end
+	
+	
 	#縦横の罫線を入れる
 	for i in start_y..end_y do
 		window[i][start_x]	= KEISEN_V
@@ -86,11 +109,13 @@ EOS
 
 #外枠を描く
 #更新はあんまりしないだろうから、メインループに入れない
-window = add_outline(window, 0, 0, WIDTH - 1, HEIGHT - 1)
+window = add_outline(window, 0, 0, WIDTH - 1, HEIGHT - 1, false)
+window = add_outline(window, 10, 5, 30, 10, true)
 
-window = add_outline(window, 10, 5, 30, 10)
+#表示してみる
+drow_window(window)
 
-
+=begin
 #メインループ
 for i in 0..4 do
 	attack = i	#仮で入れてる
@@ -107,9 +132,7 @@ for i in 0..4 do
 	print CORSOR_UP * HEIGHT, "\r"	if i > 0
 	
 	#表示してみる
-	window.each do |row|
-		p row.join
-	end
+	drow_window(window)
 	sleep 0.1
 end
-
+=end
