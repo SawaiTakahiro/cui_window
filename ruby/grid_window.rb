@@ -50,15 +50,12 @@ end
 
 def add_outline(window)
 	#縦横の罫線を入れる
-	for r in 0..(HEIGHT - 1) do
-		window[r][0]			= KEISEN_V
-		window[r][WIDTH - 1]			= KEISEN_V
-	end
+	window.map{|row| row[0]					= KEISEN_V}
+	window.map{|row| row[WIDTH - 1]	= KEISEN_V}
 	
-	for c in 0..(WIDTH - 1) do
-		window[0][c]			= KEISEN_H
-		window[HEIGHT - 1][c]			= KEISEN_H
-	end
+	window[0].fill(1, WIDTH - 1){KEISEN_H}
+	window[HEIGHT - 1].fill(1, WIDTH - 1){KEISEN_H}
+	
 	
 	#TODO:間の部分を水平、垂直の罫線入れる
 	window[0][0]			= KEISEN_C
@@ -66,10 +63,6 @@ def add_outline(window)
 	
 	window[HEIGHT - 1][0]			= KEISEN_C
 	window[HEIGHT - 1][WIDTH - 1]	= KEISEN_C
-	
-	
-	
-	
 	
 	return window
 end
