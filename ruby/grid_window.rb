@@ -48,21 +48,21 @@ def get_seikei_status(label, value, padding_char)
 	return output.join
 end
 
-def add_outline(window)
+def add_outline(window, max_width, max_height)
 	#縦横の罫線を入れる
 	window.map{|row| row[0]					= KEISEN_V}
-	window.map{|row| row[WIDTH - 1]	= KEISEN_V}
+	window.map{|row| row[max_width - 1]	= KEISEN_V}
 	
-	window[0].fill(1, WIDTH - 1){KEISEN_H}
-	window[HEIGHT - 1].fill(1, WIDTH - 1){KEISEN_H}
+	window[0].fill(1, max_width - 1){KEISEN_H}
+	window[max_height - 1].fill(1, max_width - 1){KEISEN_H}
 	
 	
 	#TODO:間の部分を水平、垂直の罫線入れる
 	window[0][0]			= KEISEN_C
-	window[0][WIDTH - 1]	= KEISEN_C
+	window[0][max_height - 1]	= KEISEN_C
 	
-	window[HEIGHT - 1][0]			= KEISEN_C
-	window[HEIGHT - 1][WIDTH - 1]	= KEISEN_C
+	window[max_height - 1][0]			= KEISEN_C
+	window[max_height - 1][max_width - 1]	= KEISEN_C
 	
 	return window
 end
@@ -83,7 +83,10 @@ EOS
 
 #外枠を描く
 #更新はあんまりしないだろうから、メインループに入れない
-window = add_outline(window)
+window = add_outline(window, WIDTH, HEIGHT)
+
+window = add_outline(window, 10, 10)
+
 
 #メインループ
 for i in 0..4 do
