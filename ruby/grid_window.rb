@@ -49,12 +49,25 @@ def get_seikei_status(label, value, padding_char)
 end
 
 def add_outline(window)
+	#縦横の罫線を入れる
+	for r in 0..(HEIGHT - 1) do
+		window[r][0]			= KEISEN_V
+		window[r][WIDTH - 1]			= KEISEN_V
+	end
+	
+	for c in 0..(WIDTH - 1) do
+		window[0][c]			= KEISEN_H
+		window[HEIGHT - 1][c]			= KEISEN_H
+	end
+	
 	#TODO:間の部分を水平、垂直の罫線入れる
 	window[0][0]			= KEISEN_C
 	window[0][WIDTH - 1]	= KEISEN_C
 	
 	window[HEIGHT - 1][0]			= KEISEN_C
 	window[HEIGHT - 1][WIDTH - 1]	= KEISEN_C
+	
+	
 	
 	
 	
